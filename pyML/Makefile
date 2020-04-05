@@ -1,4 +1,4 @@
-.PHONY: clean
+.PHONY: dist-clean clean
 
 default: ./lib/nn.so
 
@@ -35,3 +35,6 @@ default: ./lib/nn.so
 
 clean:
 	rm ./obj/*
+
+dist-clean:
+	rm ./lib/*

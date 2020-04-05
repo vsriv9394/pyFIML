@@ -1,4 +1,5 @@
-# INSTALLATION
+# pyFIML
+## INSTALLATION
 ```
 cd pyML
 make
