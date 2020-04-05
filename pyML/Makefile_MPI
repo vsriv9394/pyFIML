@@ -1,0 +1,37 @@
+.PHONY: clean
+
+default: ./lib/nn.so
+
+./obj/activation.o: ./include/nn.h ./src/activation.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/activation.c -o ./obj/activation.o
+
+./obj/adam_optimizer.o: ./include/nn.h ./src/adam_optimizer.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/adam_optimizer.c -o ./obj/adam_optimizer.o
+
+./obj/back_prop.o: ./include/nn.h ./src/back_prop.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/back_prop.c -o ./obj/back_prop.o
+
+./obj/epoch.o: ./include/nn.h ./src/epoch.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/epoch.c -o ./obj/epoch.o
+
+./obj/forw_prop.o: ./include/nn.h ./src/forw_prop.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/forw_prop.c -o ./obj/forw_prop.o
+
+./obj/eval_batch_sens.o: ./include/nn.h ./src/eval_batch_sens.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/eval_batch_sens.c -o ./obj/eval_batch_sens.o
+
+./obj/memory_management.o: ./include/nn.h ./src/memory_management.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/memory_management.c -o ./obj/memory_management.o
+
+./obj/predict.o: ./include/nn.h ./src/predict.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/predict.c -o ./obj/predict.o
+
+./obj/print.o: ./include/nn.h ./src/print.c
+	mpicc -c -fPIC -O3 -DMPI_ENABLED ./src/print.c -o ./obj/print.o
+
+./lib/nn.so: ./include/nn.h ./obj/activation.o ./obj/adam_optimizer.o ./obj/back_prop.o ./obj/epoch.o ./obj/eval_batch_sens.o ./obj/forw_prop.o ./obj/memory_management.o ./obj/predict.o ./obj/print.o
+	mkdir -p include
+	mpicc --shared -fPIC -O3 -DMPI_ENABLED ./obj/activation.o ./obj/adam_optimizer.o ./obj/back_prop.o ./obj/epoch.o ./obj/eval_batch_sens.o ./obj/forw_prop.o ./obj/memory_management.o ./obj/predict.o ./obj/print.o -o ./lib/nn.so
+
+clean:
+	rm ./obj/*
