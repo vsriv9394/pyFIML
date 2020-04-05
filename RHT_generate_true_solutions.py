@@ -1,6 +1,6 @@
 import numpy as np
 from subprocess import call
-from plotting import *
+import matplotlib.pyplot as plt
 
 class RHT_True:
 
@@ -70,11 +70,13 @@ class RHT_True:
         # Once the simulation is terminated, show the results if plot is True
 
         if self.plot==True:
-
-            myplot("Temp_prof", self.y, self.T, '-b', 2.0, None)
-            myfig("Temp_prof", "y", "Temperature", "Temperature Profile for Radiative Heat Transfer")
-            myfigshow()
-
+            fig, ax = plt.subplots()
+            ax.plot(self.y, self.T, '-b', lw=2, label="T_inf={}".format(self.T_inf))
+            ax.set_xlabel("y")
+            ax.set_ylabel("Temperature")
+            ax.set_title("Temperature Profile for Radiative Heat Transfer")
+            ax.legend()
+            plt.show()
 
 
 
